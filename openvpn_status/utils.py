@@ -22,7 +22,8 @@ def parse_peer(peer):
     if isinstance(peer, PeerAddress):
         return peer
     try:
-        return PeerAddress(ipaddress.ip_address(peer), None)
+        ip = ipaddress.ip_address(peer)
+        return PeerAddress(ip.ipv4_mapped or ip, None)
     except ValueError:
         host, port = peer.rsplit(':', 1)
         return PeerAddress(ipaddress.ip_address(host), int(port))

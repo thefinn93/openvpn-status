@@ -21,8 +21,11 @@ def parse_time(time):
 def parse_peer(peer):
     if isinstance(peer, PeerAddress):
         return peer
-    host, port = peer.rsplit(':', 1)
-    return PeerAddress(ipaddress.ip_address(host), int(port))
+    try:
+        return PeerAddress(ipaddress.ip_address(peer), None)
+    except ValueError:
+        host, port = peer.rsplit(':', 1)
+        return PeerAddress(ipaddress.ip_address(host), int(port))
 
 
 def parse_filesize(size):

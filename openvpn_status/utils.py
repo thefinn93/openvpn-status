@@ -23,10 +23,12 @@ def parse_peer(peer):
         return peer
     try:
         ip = ipaddress.ip_address(peer)
-        return PeerAddress(ip.ipv4_mapped or ip, None)
+        if isinstance(ip, ipaddress.IPv6Address):
+            return PeerAddress(ip.ipv4_mapped or ip, None)
+        else:
+            return PeerAddress(ip, None)
     except ValueError:
-        host, port = peer.rsplit(':', 1)
-        return PeerAddress(ipaddress.ip_address(host), int(port))
+        return PeerAddress(ipaddress.ip_network(peer), None)
 
 
 def parse_filesize(size):
@@ -47,7 +49,7 @@ class PeerAddress(collections.namedtuple('PeerAddress', 'host port')):
     """
 
     def __str__(self):
-        return '{0}:{1}'.format(self.host, self.port)
+        return str(self.host)
 
 
 @unicode_compatible

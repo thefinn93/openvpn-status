@@ -1,7 +1,7 @@
 from __future__ import unicode_literals, absolute_import
 
 from collections import OrderedDict
-from ipaddress import ip_address
+from ipaddress import ip_network
 
 from .descriptors import LabelProperty, name_descriptors
 from .utils import parse_time, parse_peer, parse_filesize
@@ -32,7 +32,7 @@ class Client(object):
 class Routing(object):
     """The OpenVPN routing model."""
 
-    virtual_address = LabelProperty('Virtual Address', input_type=ip_address)
+    virtual_address = LabelProperty('Virtual Address', input_type=ip_network)
     common_name = LabelProperty('Common Name')
     real_address = LabelProperty('Real Address', input_type=parse_peer)
     last_ref = LabelProperty('Last Ref', input_type=parse_time)

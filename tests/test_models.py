@@ -3,7 +3,7 @@ from __future__ import unicode_literals, absolute_import
 from itertools import combinations
 from collections import OrderedDict
 from datetime import datetime
-from ipaddress import IPv4Address
+from ipaddress import IPv4Address, IPv4Network
 
 from openvpn_status.models import Status, Client, Routing, GlobalStats
 
@@ -77,11 +77,10 @@ def test_routing():
     assert not hasattr(routing, 'last_ref')
 
     routing.virtual_address = '172.16.1.1'
-    assert routing.virtual_address == IPv4Address('172.16.1.1')
+    assert routing.virtual_address == IPv4Network('172.16.1.1')
 
-    routing.real_address = '192.168.1.1:8080'
+    routing.real_address = '192.168.1.1'
     assert routing.real_address.host == IPv4Address('192.168.1.1')
-    assert routing.real_address.port == 8080
 
 
 def test_routing_labels():

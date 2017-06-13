@@ -1,7 +1,7 @@
 from __future__ import unicode_literals, absolute_import
 
 from datetime import datetime
-from ipaddress import IPv4Address
+from ipaddress import IPv4Network
 
 from pytest import mark
 from six import text_type
@@ -21,10 +21,10 @@ def test_parse_time(text, time):
 
 
 @mark.parametrize('text,peer', [
-    ('10.0.0.1:49502', PeerAddress(IPv4Address('10.0.0.1'), 49502)),
-    ('10.0.0.2:64169', PeerAddress(IPv4Address('10.0.0.2'), 64169)),
-    ('10.0.0.3:63414', PeerAddress(IPv4Address('10.0.0.3'), 63414)),
-    (PeerAddress('10.0.0.1', 80), PeerAddress('10.0.0.1', 80)),
+    ('10.0.0.1/32', PeerAddress(IPv4Network('10.0.0.1'), None)),
+    ('10.0.0.2/32', PeerAddress(IPv4Network('10.0.0.2'), None)),
+    ('10.0.0.3/32', PeerAddress(IPv4Network('10.0.0.3'), None)),
+    (PeerAddress('10.0.0.1', None), PeerAddress('10.0.0.1', None)),
 ])
 def test_parse_peer(text, peer):
     assert parse_peer(text) == peer
